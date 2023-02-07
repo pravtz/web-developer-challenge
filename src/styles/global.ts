@@ -1,9 +1,8 @@
 import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyled = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 
-:root { 
+:root, body { 
   --primary: #71bb00;
   --secundary: #9f9f9f;
   --danger: #d65923

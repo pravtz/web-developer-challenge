@@ -8,6 +8,6 @@ export const WrapperLayoutMain = styled.div`
 `
 
 export const Content = styled.div`
-    padding-top: 93px;
+    padding-top: 146px;
     width: 100%;
 `
