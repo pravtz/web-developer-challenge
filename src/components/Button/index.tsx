@@ -6,7 +6,9 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> &
 
 export const ButtonMain = ({
     children,
+    variant,
+    isDesabled,
     ...rest
 }: React.PropsWithChildren<Props>) => {
-    return <WrapperButton {...rest}>{children}</WrapperButton>;
+    return <WrapperButton variant={variant} isDesabled={isDesabled} {...rest}>{children}</WrapperButton>;
 };

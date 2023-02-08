@@ -2,6 +2,18 @@ import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyled = createGlobalStyle`
 
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+  html, body, #__next {
+    height: 100%;
+
+  }
+
+
 :root, body { 
   --primary: #71bb00;
   --secundary: #9f9f9f;
@@ -30,18 +42,7 @@ const GlobalStyled = createGlobalStyle`
     --fontSize-4xl: 2.25rem;    //36px  
     --fontSize-5xl: 3rem;       //48px 
 }
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-  html, body, #__next {
-    height: 100%;
 
-  }
-  body {
-    font-family: 'Roboto', sans-serif;
-  }
 
 `
 

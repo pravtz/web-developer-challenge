@@ -4,6 +4,7 @@ export const WrapperHeader = styled.div`
     width: 100%;
     height: 93px;
     position: fixed;
+    z-index: 10;
 
     display: flex;
     justify-content: center;
