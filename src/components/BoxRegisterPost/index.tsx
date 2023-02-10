@@ -4,6 +4,7 @@ import ImageDefault from '../../assets/image.svg'
 import { ButtonMain } from "../Button"
 import Trash from '../../assets/trash.svg'
 import { useState } from "react"
+import { InputFile } from "../InputFile"
 
 
 export const BoxRegisterPost = () => {
@@ -26,9 +27,10 @@ export const BoxRegisterPost = () => {
                         </ButtonMain>
                     </WrapperTrash>
 
-                    <Image>
+                    <InputFile />
+                    {/* <Image>
                         <img src={ImageDefault} alt="figura de uma imagem" />
-                    </Image>
+                    </Image> */}
                 </WrapperImageAndTrash>
                 <Form >
                     <Input placeholder="Digite seu nome" />
