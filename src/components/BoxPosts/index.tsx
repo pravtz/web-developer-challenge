@@ -5,16 +5,19 @@ import FigureImage from '../../assets/image.svg'
 import { ButtonMain } from "../Button"
 
 type BoxPostProps = {
+    id: string
     text: string;
     figure?: string;
     author: string;
+    removePost: Function
+
 }
 
-export const BoxPost = ({ text, figure, author }: BoxPostProps) => {
+export const BoxPost = ({ id, text, figure, author, removePost }: BoxPostProps) => {
     return (
         <Box>
             <IconClose>
-                <ButtonMain>
+                <ButtonMain onClick={() => removePost(id)}>
                     <img src={Close} alt="figura de um circulo com um xis no meio" />
                 </ButtonMain>
             </IconClose>
