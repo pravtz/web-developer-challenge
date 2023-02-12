@@ -31,9 +31,10 @@ const postsSeed = [
 type postType = {
   id: string;
   text: string;
-  figure: string
+  figure?: string
   author: string
 }
+
 
 
 
@@ -57,7 +58,7 @@ function App() {
 
     <LayoutMain>
       <Wrapper>
-        <BoxRegisterPost />
+        <BoxRegisterPost addPost={addPost} />
         <h2>Feed</h2>
         <ContentPosts>
           {posts.map((post) => {
@@ -70,6 +71,7 @@ function App() {
                 figure={post.figure}
                 author={post.author}
                 removePost={removePost}
+
 
               />
             )

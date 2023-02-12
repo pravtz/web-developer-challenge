@@ -13,11 +13,20 @@ export const LabelFile = styled.label`
     align-items: center;
     justify-content: center;
     margin-bottom: var(--spacing1);
+  
 
-    img{
-        width: 24px;
-        height: 24px;
-    }
+
+`
+type ImageLabelProps = {
+    isDefaultImage?: Boolean
+}
+export const ImageLabel = styled.img<ImageLabelProps>`
+    object-fit: contain;
+    width: ${props => props.isDefaultImage ? "24px" : "99%"};
+    height: ${props => props.isDefaultImage ? "24px" : "99%"};;
+    border-radius: var(--borderRadiusPhoto);
+        
+        
 `
 export const InputF = styled.input`
     display: none;

@@ -1,17 +1,34 @@
-import { LabelFile, Wrapper, InputF } from "./styled"
+import { LabelFile, Wrapper, InputF, ImageLabel } from "./styled"
 import ImageDefault from '../../assets/image.svg'
+import { forwardRef } from "react";
 
-export const InputFile = () => {
+
+type InputFileProps = {
+    onChange: any
+    imagePreview: any
+    name: string
+
+}
+
+
+
+const InputBaseFile = ({ name, imagePreview, ...res }: InputFileProps, ref: any) => {
+
     return (
         <Wrapper>
-            <LabelFile htmlFor="inputFile">
-                <img src={ImageDefault} alt="" />
+            <LabelFile htmlFor={name}>
+                <ImageLabel isDefaultImage={!imagePreview} src={imagePreview ? imagePreview : ImageDefault} alt="" />
             </LabelFile>
-            <InputF 
+            <InputF
+
                 type="file"
-                name="inputFile"
-                id="inputFile"
+                name={name}
+                id={name}
+                ref={ref}
+                {...res}
             />
         </Wrapper>
     )
 }
+
+export const InputFile = forwardRef(InputBaseFile)
