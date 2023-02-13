@@ -8,8 +8,8 @@ import { InputFile } from "../InputFile"
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import example from '../../assets/example.jpeg'
-import example2 from '../../assets/exemple2.jpeg'
+import {usePost} from "../../hooks/usePost"
+import {addPostService} from "../../services/Post/addPostService"
 
 
 const configFile = {
@@ -41,10 +41,13 @@ type createPostType = {
 }
 
 
-export const BoxRegisterPost = (addPost: any) => {
+export const BoxRegisterPost = () => {
     const [isFigure, setIsFigure] = useState<boolean>(true)
     const [image, setImage] = useState<File | null>()
     const [preview, setPreview] = useState<string | null>()
+    const {post, setPost} = usePost()
+
+
 
 
     const { register, handleSubmit, reset, watch, formState: { isSubmitting, errors } } = useForm({
@@ -58,42 +61,36 @@ export const BoxRegisterPost = (addPost: any) => {
                 setPreview(reader.result as string)
             }
             reader.readAsDataURL(image)
+            console.log(reader)
 
-            console.log("reader ", reader)
         } else {
             setPreview(null)
         }
     }, [image])
-
-
-
-
-
-
 
     const handlerDeleteImage = () => {
         setPreview(null)
         setImage(null)
     }
 
-
     const submitPost = (data: any) => {
         const { text, figure, author } = data
 
-        console.log(text, figure, author)
+        console.log(figure)
+    
+        
+        const result = addPostService(post,{text, figure, author})
+        // console.log(result)
+        setPost(result)
+        reset()
+        handlerDeleteImage()
     }
+
     const handlerOnchange = (event: any) => {
         const file = event.target.files[0];
         setImage(file)
 
-
-
     }
-
-
-
-
-
 
     return (
         <Box>

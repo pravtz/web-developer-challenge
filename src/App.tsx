@@ -3,6 +3,7 @@ import { BoxPost } from "./components/BoxPosts"
 import { BoxRegisterPost } from "./components/BoxRegisterPost"
 import { LayoutMain } from "./components/LayoutMain"
 import { ContentPosts, Wrapper } from "./styles/AppPage"
+import {usePost} from "./hooks/usePost"
 
 
 
@@ -40,17 +41,11 @@ type postType = {
 
 
 function App() {
+  const {post, setPost} = usePost()
 
-  const [posts, setPosts] = useState<postType[]>(postsSeed)
 
-  const id = Math.random().toString(16).slice(2)
-
-  const addPost = ({ text, figure, author }: postType): void => {
-    setPosts([...posts, { id, text, figure, author }])
-
-  }
   const removePost = (id: string): void => {
-    setPosts(posts.filter((item) => item.id != id))
+    setPost(post?.filter((item) => item.id != id))
   }
 
 
@@ -58,10 +53,10 @@ function App() {
 
     <LayoutMain>
       <Wrapper>
-        <BoxRegisterPost addPost={addPost} />
+        <BoxRegisterPost/>
         <h2>Feed</h2>
         <ContentPosts>
-          {posts.map((post) => {
+          {post?.map((post) => {
             return (
 
               <BoxPost
