@@ -21,7 +21,7 @@ type ImageLabelProps = {
     isDefaultImage?: Boolean
 }
 export const ImageLabel = styled.img<ImageLabelProps>`
-    object-fit: contain;
+    object-fit: cover;
     width: ${props => props.isDefaultImage ? "24px" : "99%"};
     height: ${props => props.isDefaultImage ? "24px" : "99%"};;
     border-radius: var(--borderRadiusPhoto);

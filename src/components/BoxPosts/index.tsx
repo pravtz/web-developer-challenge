@@ -1,29 +1,39 @@
 import { Box } from "../Box"
-import { Article, IconClose, Wrapper, Image, Text, Author } from "./syled"
+import { Article, IconClose, Wrapper, Image, Text, Author, ImageContent } from "./syled"
 import Close from '../../assets/delete.svg'
 import FigureImage from '../../assets/image.svg'
 import { ButtonMain } from "../Button"
+import { usePost } from "../../hooks/usePost"
+import {removePostService} from "../../services/Post/removePostService"
+import {PostTypeList} from "../../services/Post/postType"
 
 type BoxPostProps = {
     id: string
     text: string;
     figure?: string;
     author: string;
-    removePost: Function
-
 }
 
-export const BoxPost = ({ id, text, figure, author, removePost }: BoxPostProps) => {
+export const BoxPost = ({ id, text, figure, author }: BoxPostProps) => {
+    const {post, setPost} = usePost()
+
+    const handlerRemovePost = (post: any, id: string) => {
+        const remv = removePostService(post, id)
+        setPost(remv)
+    }
+
     return (
+        
+
         <Box>
             <IconClose>
-                <ButtonMain onClick={() => removePost(id)}>
+                <ButtonMain onClick={() => handlerRemovePost(post, id)}>
                     <img src={Close} alt="figura de um circulo com um xis no meio" />
                 </ButtonMain>
             </IconClose>
             <Wrapper>
                 <Image>
-                    <img
+                    <ImageContent
                         src={!!figure ? figure : FigureImage}
                         alt={!!figure ? "figura do poste" : "figura de uma imagem"} />
                 </Image>
@@ -39,5 +49,6 @@ export const BoxPost = ({ id, text, figure, author, removePost }: BoxPostProps) 
             </Wrapper>
 
         </Box>
+        
     )
 }

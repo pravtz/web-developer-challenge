@@ -46,8 +46,10 @@ export const Form = styled.form`
     gap: var(--spacing1)
 
 `
-
-export const Input = styled.input`
+type InputProps = {
+    ariaError: boolean
+}
+export const Input = styled.input<InputProps>`
     width: 100%;
     height: 40px;
     padding: 12px 16px;
@@ -55,18 +57,24 @@ export const Input = styled.input`
     background-color: ${props => props.theme.colors.bgInput};
     border: none;
     color: white;
-    outline: none;
+    outline: ${props => props.ariaError ? "0.5px solid red" : "none"};
     &:focus{
         border: none;
-        outline: 1px solid rgb(113, 187, 0, 0.5) ;
+        outline: ${props => props.ariaError ? "0.5px solid red" :"1px solid rgb(113, 187, 0, 0.5)"};
     }
     &::placeholder{
         color: #9f9f9f;
+    }
+    &::invalid{
+        border: 1px solid red;
     }
 
 `
-export const Textarea = styled.textarea`
-min-height: 80px;
+type TextareaProps = {
+    ariaError: boolean
+}
+export const Textarea = styled.textarea<TextareaProps>`
+    min-height: 80px;
     width: 100%;
     height: 40px;
     padding: 12px 16px;
@@ -74,14 +82,19 @@ min-height: 80px;
     background-color: ${props => props.theme.colors.bgInput};
     border: none;
     color: white;
-    outline: none;
+    outline: ${props => props.ariaError ? "0.5px solid red" : "none"};
     resize: none;
+    
     &:focus{
         border: none;
-        outline: 1px solid rgb(113, 187, 0, 0.5) ;
+        outline: ${props => props.ariaError ? "0.5px solid red" :"1px solid rgb(113, 187, 0, 0.5)"} ;
     }
+
     &::placeholder{
         color: #9f9f9f;
+    }
+    &::invalid{
+        border: 1px solid red;
     }
 `
 
@@ -90,4 +103,13 @@ export const WrapperButtons = styled.div`
     justify-content: flex-end;
     gap: var(--spacing3);
     margin-top: var(--spacing3);
+`
+
+
+export const ErrorMensageInput = styled.p` 
+    color: var(--danger);
+    font-size: var(--fontSize-xs);
+    margin-left: 14px;
+    
+    
 `

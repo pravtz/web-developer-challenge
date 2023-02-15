@@ -1,6 +1,5 @@
 import { Box } from "../Box"
-import { Wrapper, WrapperButtons, WrapperImageAndTrash, Form, Image, Input, Textarea, WrapperTrash } from "./style"
-import ImageDefault from '../../assets/image.svg'
+import { Wrapper, WrapperButtons, WrapperImageAndTrash, Form, Image, Input, Textarea, WrapperTrash, GroupInput, ErrorMensageInput } from "./style"
 import { ButtonMain } from "../Button"
 import Trash from '../../assets/trash.svg'
 import { useEffect, useState } from "react"
@@ -10,16 +9,18 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import {usePost} from "../../hooks/usePost"
 import {addPostService} from "../../services/Post/addPostService"
+import { useAutoAnimate } from '@formkit/auto-animate/react'
+
 
 
 const configFile = {
-    FILE_SIZE_MAX: "200000",
+    FILE_SIZE_MAX: 1000000,
     FILE_SUPPORTED_FORMATS: ['image/jpg', 'image/jpeg', 'image/gif', 'image/png']
 }
 
 const schema = yup.object({
-    author: yup.string().min(2).required(),
-    text: yup.string().min(10).required(),
+    author: yup.string().required("O nome é obrigatório"),
+    text: yup.string().min(5, "É necessário pelo menos 5 caracteres").required("O texto é obrigatório"),
     figure: yup.mixed()
         .required("você precisa adicionar um arquivo!")
         .test('fileSize', "O arquivo é muito grande",
@@ -34,23 +35,15 @@ const schema = yup.object({
         )
 })
 
-type createPostType = {
-    text: string;
-    figure: object
-    author: string
-}
-
-
 export const BoxRegisterPost = () => {
     const [isFigure, setIsFigure] = useState<boolean>(true)
     const [image, setImage] = useState<File | null>()
     const [preview, setPreview] = useState<string | null>()
     const {post, setPost} = usePost()
+  const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
 
 
-
-
-    const { register, handleSubmit, reset, watch, formState: { isSubmitting, errors } } = useForm({
+    const { register, handleSubmit, reset,setError,clearErrors, watch, formState: { isSubmitting, errors, isValid,isLoading } } = useForm({
         resolver: yupResolver(schema)
     })
 
@@ -61,7 +54,7 @@ export const BoxRegisterPost = () => {
                 setPreview(reader.result as string)
             }
             reader.readAsDataURL(image)
-            console.log(reader)
+           
 
         } else {
             setPreview(null)
@@ -72,15 +65,16 @@ export const BoxRegisterPost = () => {
         setPreview(null)
         setImage(null)
     }
+    const handlerClearAll = () => {
+        handlerDeleteImage()
+        reset()
+        clearErrors()
+    }
 
     const submitPost = (data: any) => {
-        const { text, figure, author } = data
+        const { text, author } = data
 
-        console.log(figure)
-    
-        
-        const result = addPostService(post,{text, figure, author})
-        // console.log(result)
+        const result = addPostService(post,{text, figure: preview, author})
         setPost(result)
         reset()
         handlerDeleteImage()
@@ -88,9 +82,28 @@ export const BoxRegisterPost = () => {
 
     const handlerOnchange = (event: any) => {
         const file = event.target.files[0];
-        setImage(file)
-
+        
+        if(!configFile.FILE_SUPPORTED_FORMATS.includes(file.type)){
+            setError("figure", {type: "fileType", message: "O tipo de arquivo não é suportado"})
+        }
+        
+        if(file.size >= configFile.FILE_SIZE_MAX){
+            setError("figure", {type: "fileSize", message: `o tamanho do arquivo deve ser menor que ${configFile.FILE_SIZE_MAX / 1000000}Mb`})
+        }
+        if(configFile.FILE_SUPPORTED_FORMATS.includes(file.type) && file.size <= configFile.FILE_SIZE_MAX){
+            clearErrors()
+        }
+        
+        if(!errors.figure){
+            setImage(file)
+        }else{
+            handlerDeleteImage()
+        }
     }
+    console.log("errors" ,errors)
+    console.log(" isValid ", isValid)
+    console.log(" ïsSubmiting", isSubmitting)
+    console.log()
 
     return (
         <Box>
@@ -103,17 +116,24 @@ export const BoxRegisterPost = () => {
                     </WrapperTrash>
 
                     <InputFile imagePreview={preview}  {...register("figure", {
-                        onChange: handlerOnchange
+                        onChange: handlerOnchange,
+                        
                     })} />
 
                 </WrapperImageAndTrash>
-                <Form onSubmit={handleSubmit(submitPost)} >
-                    <Input placeholder="Digite seu nome" {...register('author')} />
-                    <Textarea placeholder="Mensagem" {...register('text')} />
+                <Form onSubmit={handleSubmit(submitPost)}>
+                    <div >
+                        <Input placeholder="Digite seu nome" aria-invalid={!!errors.author?.message} ariaError={!!errors.author?.message} {...register('author')} />
+                        <ErrorMensageInput ref={parent}>{errors.author?.message}</ErrorMensageInput>
+                    </div>
+                    <div>
+                        <Textarea placeholder="Mensagem" aria-invalid={!!errors.text?.message} ariaError={!!errors.text?.message} {...register('text')} />
+                        <ErrorMensageInput ref={parent} >{errors.text?.message}</ErrorMensageInput>
+                    </div>
 
                     <WrapperButtons>
-                        <ButtonMain disabled isDesabled variant="link">Descartar</ButtonMain>
-                        <ButtonMain type="submit" disabled={isSubmitting} isDesabled={isSubmitting} variant="solid">Publicar</ButtonMain>
+                        <ButtonMain type="button" onClick={handlerClearAll} disabled={ isSubmitting} isDesabled={isSubmitting} variant="link">Descartar</ButtonMain>
+                        <ButtonMain type="submit" disabled={!isValid || isSubmitting || !preview} isDesabled={isSubmitting || !isValid || !preview} variant="solid">Publicar</ButtonMain>
                     </WrapperButtons>
                 </Form>
             </Wrapper>

@@ -17,7 +17,7 @@ const GlobalStyled = createGlobalStyle`
 :root, body { 
   --primary: #71bb00;
   --secundary: #9f9f9f;
-  --danger: #d65923
+  --danger: #d65923;
   --write: #FFFFFF;
   --black: #232323;
 

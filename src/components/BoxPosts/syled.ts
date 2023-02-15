@@ -33,7 +33,19 @@ export const Image = styled.div`
     justify-content: center;
     margin-bottom: var(--spacing1);
 
+    img{
+        width: 88px;
+        height: 88px;
+    }
+
 `
+export const ImageContent = styled.img`
+    object-fit: cover;
+    width: 99%;
+    border-radius: var(--borderRadiusPhoto);
+   
+`
+
 export const Text = styled.h2`
     color: #9f9f9f;
     line-height: 20px;
