@@ -7,6 +7,7 @@ const GlobalStyled = createGlobalStyle`
   padding: 0;
   margin: 0;
   font-family: 'Roboto', sans-serif;
+  font-weight: 400;
 }
   html, body, #__next {
     height: 100%;
@@ -31,6 +32,8 @@ const GlobalStyled = createGlobalStyle`
   --spacing4: 32px;
   --spacing5: 40px;
   --spacing6: 48px;
+  --spacing7: 52px;
+  --spacing8: 56px;
 
     --fontSize-xs: 0.75rem;     //12px  
     --fontSize-sm: 0.875rem;    //14px  

@@ -1,18 +1,22 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div``
    
     
-`
-export const LabelFile = styled.label`
-     width: 88px;
+type LabelFileProps = {
+    errorLabel?: boolean
+}
+export const LabelFile = styled.label<LabelFileProps>`
+    width: 88px;
     height: 88px;
-    border: 1px solid ${(props) => props.theme.colors.borderImage};
+    border: 1px solid ${(props) => props.errorLabel ? "red" : props.theme.colors.borderImage};
+  
     border-radius: var(--borderRadiusPhoto);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: var(--spacing1);
+    margin-bottom: ${props => props.errorLabel ? "0" : "var(--spacing1)"};
+    
   
 
 

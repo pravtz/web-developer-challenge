@@ -1,5 +1,5 @@
 import { Box } from "../Box"
-import { Wrapper, WrapperButtons, WrapperImageAndTrash, Form, Image, Input, Textarea, WrapperTrash, GroupInput, ErrorMensageInput } from "./style"
+import { Wrapper, WrapperButtons, WrapperImageAndTrash, Form, Image, Input, Textarea, WrapperTrash, ErrorImageMenssage, ErrorMensageInput } from "./style"
 import { ButtonMain } from "../Button"
 import Trash from '../../assets/trash.svg'
 import { useEffect, useState } from "react"
@@ -25,12 +25,12 @@ const schema = yup.object({
         .required("você precisa adicionar um arquivo!")
         .test('fileSize', "O arquivo é muito grande",
             (value: any) => {
-                return value && value[0].size <= 1000000
+                return value[0] && value[0].size <= 1000000
             }
         )
         .test('fileType', 'Formato não suportado',
             (value: any) => {
-                return value && configFile.FILE_SUPPORTED_FORMATS.includes(value[0].type)
+                return value[0] && configFile.FILE_SUPPORTED_FORMATS.includes(value[0].type)
             }
         )
 })
@@ -72,12 +72,16 @@ export const BoxRegisterPost = () => {
     }
 
     const submitPost = (data: any) => {
-        const { text, author } = data
-
-        const result = addPostService(post,{text, figure: preview, author})
-        setPost(result)
-        reset()
-        handlerDeleteImage()
+        const { text, figure, author } = data
+        if(isValid && preview && figure) {
+            const result = addPostService(post,{text, figure: preview, author})
+            setPost(result)
+            reset()
+            handlerDeleteImage()
+        }else{
+            setError("figure", {type: "required", message: "A imagem é obrigatória"})
+        }
+        
     }
 
     const handlerOnchange = (event: any) => {
@@ -91,37 +95,37 @@ export const BoxRegisterPost = () => {
             setError("figure", {type: "fileSize", message: `o tamanho do arquivo deve ser menor que ${configFile.FILE_SIZE_MAX / 1000000}Mb`})
         }
         if(configFile.FILE_SUPPORTED_FORMATS.includes(file.type) && file.size <= configFile.FILE_SIZE_MAX){
-            clearErrors()
+            clearErrors("figure")
+            console.log("passei por aqui")
         }
         
-        if(!errors.figure){
+        if(!errors.figure ){
             setImage(file)
         }else{
             handlerDeleteImage()
         }
     }
-    console.log("errors" ,errors)
-    console.log(" isValid ", isValid)
-    console.log(" ïsSubmiting", isSubmitting)
-    console.log()
 
     return (
         <Box>
             <Wrapper>
-                <WrapperImageAndTrash>
-                    <WrapperTrash isVisibled={isFigure}>
-                        <ButtonMain onClick={handlerDeleteImage}>
-                            <img src={Trash} alt="figura de uma lixeira" />
-                        </ButtonMain>
-                    </WrapperTrash>
-
-                    <InputFile imagePreview={preview}  {...register("figure", {
-                        onChange: handlerOnchange,
-                        
-                    })} />
-
-                </WrapperImageAndTrash>
                 <Form onSubmit={handleSubmit(submitPost)}>
+                    <WrapperImageAndTrash>
+                        <WrapperTrash isVisibled={isFigure}>
+                            <ButtonMain onClick={handlerDeleteImage}>
+                                <img src={Trash} alt="figura de uma lixeira" />
+                            </ButtonMain>
+                        </WrapperTrash>
+
+                        <InputFile imagePreview={preview} error={!!errors.figure?.message} {...register("figure", {
+                            onChange: handlerOnchange,
+                            
+                        })} />
+
+                    </WrapperImageAndTrash>
+                    <ErrorImageMenssage>
+                        <p ref={parent}>{errors.figure?.message}</p>
+                    </ErrorImageMenssage>
                     <div >
                         <Input placeholder="Digite seu nome" aria-invalid={!!errors.author?.message} ariaError={!!errors.author?.message} {...register('author')} />
                         <ErrorMensageInput ref={parent}>{errors.author?.message}</ErrorMensageInput>
@@ -133,7 +137,7 @@ export const BoxRegisterPost = () => {
 
                     <WrapperButtons>
                         <ButtonMain type="button" onClick={handlerClearAll} disabled={ isSubmitting} isDesabled={isSubmitting} variant="link">Descartar</ButtonMain>
-                        <ButtonMain type="submit" disabled={!isValid || isSubmitting || !preview} isDesabled={isSubmitting || !isValid || !preview} variant="solid">Publicar</ButtonMain>
+                        <ButtonMain type="submit" disabled={ isSubmitting   } isDesabled={isSubmitting } variant="solid">Publicar</ButtonMain>
                     </WrapperButtons>
                 </Form>
             </Wrapper>

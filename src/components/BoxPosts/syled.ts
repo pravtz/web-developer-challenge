@@ -1,11 +1,13 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.section`
-
+padding-top: 56px;
 display: flex;
 flex-direction: row;
-align-items: center;
+align-items: flex-start;
 gap: var(--spacing4);
+
+
 
 `
 export const IconClose = styled.div`
@@ -16,12 +18,7 @@ export const IconClose = styled.div`
     height: 20px;
 `
 
-export const Article = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing2);
 
-`
 export const Image = styled.div`
     min-width: 88px;
     min-height: 88px;
@@ -45,16 +42,31 @@ export const ImageContent = styled.img`
     border-radius: var(--borderRadiusPhoto);
    
 `
-
-export const Text = styled.h2`
-    color: #9f9f9f;
-    line-height: 20px;
-    font-size: 16px;
-`
-export const Author = styled.div`
-    margin-bottom: var(--spacing1);
+export const Article = styled.div`
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 0;
+    padding-top: 0;
+    gap: var(--spacing2);
+   
+`
+
+export const Text = styled.h2`
+    margin-top: 0;
+    padding-top: 0;
+    line-height: 20px;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+
+`
+export const Author = styled.div`
+    
+    display: flex;
+    flex-direction: column;
+
+
     span{
         font-weight: 500;
         color: #5f5f5f;

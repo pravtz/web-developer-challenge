@@ -113,3 +113,12 @@ export const ErrorMensageInput = styled.p`
     
     
 `
+export const ErrorImageMenssage = styled.div`
+    width: 100%;
+    text-align: center;
+    p{
+        color: var(--danger);
+        font-size: var(--fontSize-xs);
+
+    }
+`

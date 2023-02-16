@@ -7,16 +7,17 @@ type InputFileProps = {
     onChange: any
     imagePreview: any
     name: string
+    error?: boolean
 
 }
 
 
 
-const InputBaseFile = ({ name, imagePreview, ...res }: InputFileProps, ref: any) => {
+const InputBaseFile = ({ name, imagePreview, error, ...res }: InputFileProps, ref: any) => {
 
     return (
         <Wrapper>
-            <LabelFile htmlFor={name}>
+            <LabelFile errorLabel={error} htmlFor={name}>
                 <ImageLabel isDefaultImage={!imagePreview} src={imagePreview ? imagePreview : ImageDefault} alt="" />
             </LabelFile>
             <InputF
