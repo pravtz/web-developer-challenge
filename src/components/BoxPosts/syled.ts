@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.section`
-padding-top: 56px;
+padding-top: 32px;
 display: flex;
 flex-direction: row;
 align-items: flex-start;
@@ -46,19 +46,16 @@ export const Article = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    margin-top: 0;
-    padding-top: 0;
     gap: var(--spacing2);
    
 `
 
 export const Text = styled.h2`
-    margin-top: 0;
-    padding-top: 0;
     line-height: 20px;
     font-size: 16px;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
+    color: ${props => props.theme.colors.textFeed};
 
 `
 export const Author = styled.div`
@@ -75,8 +72,5 @@ export const Author = styled.div`
     p{
         font-size: var(--fontSize-sm);
         color: #7a7a7a;
-    
-
-        
     }
 `

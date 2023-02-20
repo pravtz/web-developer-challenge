@@ -2,7 +2,7 @@ import { useState } from "react"
 import { BoxPost } from "./components/BoxPosts"
 import { BoxRegisterPost } from "./components/BoxRegisterPost"
 import { LayoutMain } from "./components/LayoutMain"
-import { ContentPosts, Wrapper } from "./styles/AppPage"
+import { ContentPosts, Wrapper, TitleFeed} from "./styles/AppPage"
 import {usePost} from "./hooks/usePost"
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 
@@ -18,7 +18,7 @@ function App() {
     <LayoutMain>
       <Wrapper>
         <BoxRegisterPost/>
-        {post?.length !== 0 &&  <h2>Feed</h2>}
+        {post?.length !== 0 &&  <TitleFeed>Feed</TitleFeed>}
         <ContentPosts ref={parent}>
         
             {post?.map((post) => {

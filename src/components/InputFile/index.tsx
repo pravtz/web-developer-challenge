@@ -11,8 +11,6 @@ type InputFileProps = {
 
 }
 
-
-
 const InputBaseFile = ({ name, imagePreview, error, ...res }: InputFileProps, ref: any) => {
 
     return (

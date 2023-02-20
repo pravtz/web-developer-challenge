@@ -10,7 +10,9 @@ const darkTheme = {
         borderImage: "#4b4b4b",
 
         buttonSolid: "#71bb00",
-        ButtonLink: "#5f5f5f"
+        ButtonLink: "#5f5f5f",
+
+        textFeed: '#9f9f9f'
     }
 }
 
