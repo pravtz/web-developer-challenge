@@ -7,6 +7,6 @@ export type PostTypeCreate = {
 export type PostTypeList = {
     id: string;
     text: string;
-    figure: object;
+    figure: string;
     author: string;
 }
