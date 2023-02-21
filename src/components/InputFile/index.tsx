@@ -4,7 +4,7 @@ import { forwardRef } from "react";
 
 
 type InputFileProps = {
-    onChange: any
+    onChange?: any
     imagePreview: any
     name: string
     error?: boolean
@@ -19,7 +19,7 @@ const InputBaseFile = ({ name, imagePreview, error, ...res }: InputFileProps, re
                 <ImageLabel isDefaultImage={!imagePreview} src={imagePreview ? imagePreview : ImageDefault} alt="" />
             </LabelFile>
             <InputF
-
+                data-testid={name}
                 type="file"
                 name={name}
                 id={name}
