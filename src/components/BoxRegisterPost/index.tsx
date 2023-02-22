@@ -7,8 +7,8 @@ import { InputFile } from "../InputFile"
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import {usePost} from "../../hooks/usePost"
-import {addPostService} from "../../services/Post/addPostService"
+import { usePost } from "../../hooks/usePost"
+import { addPostService } from "../../services/Post/addPostService"
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 
@@ -39,11 +39,11 @@ export const BoxRegisterPost = () => {
     const [isFigure, setIsFigure] = useState<boolean>(true)
     const [image, setImage] = useState<File | null>()
     const [preview, setPreview] = useState<string | null>()
-    const {post, setPost} = usePost()
-  const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
+    const { post, setPost } = usePost()
+    const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
 
 
-    const { register, handleSubmit, reset,setError,clearErrors, watch, formState: { isSubmitting, errors, isValid,isLoading } } = useForm({
+    const { register, handleSubmit, reset, setError, clearErrors, watch, formState: { isSubmitting, errors, isValid, isLoading } } = useForm({
         resolver: yupResolver(schema)
     })
 
@@ -54,7 +54,7 @@ export const BoxRegisterPost = () => {
                 setPreview(reader.result as string)
             }
             reader.readAsDataURL(image)
-           
+
 
         } else {
             setPreview(null)
@@ -73,35 +73,35 @@ export const BoxRegisterPost = () => {
 
     const submitPost = (data: any) => {
         const { text, figure, author } = data
-        if(isValid && preview && figure) {
-            const result = addPostService(post,{text, figure: preview, author})
+        if (isValid && preview && figure) {
+            const result = addPostService(post, { text, figure: preview, author })
             setPost(result)
             reset()
             handlerDeleteImage()
-        }else{
-            setError("figure", {type: "required", message: "A imagem é obrigatória"})
+        } else {
+            setError("figure", { type: "required", message: "A imagem é obrigatória" })
         }
-        
+
     }
 
     const handlerOnchange = (event: any) => {
         const file = event.target.files[0];
-        
-        if(!configFile.FILE_SUPPORTED_FORMATS.includes(file.type)){
-            setError("figure", {type: "fileType", message: "O tipo de arquivo não é suportado"})
+
+        if (!configFile.FILE_SUPPORTED_FORMATS.includes(file.type)) {
+            setError("figure", { type: "fileType", message: "O tipo de arquivo não é suportado" })
         }
-        
-        if(file.size >= configFile.FILE_SIZE_MAX){
-            setError("figure", {type: "fileSize", message: `o tamanho do arquivo deve ser menor que ${configFile.FILE_SIZE_MAX / 1000000}Mb`})
+
+        if (file.size >= configFile.FILE_SIZE_MAX) {
+            setError("figure", { type: "fileSize", message: `o tamanho do arquivo deve ser menor que ${configFile.FILE_SIZE_MAX / 1000000}Mb` })
         }
-        if(configFile.FILE_SUPPORTED_FORMATS.includes(file.type) && file.size <= configFile.FILE_SIZE_MAX){
+        if (configFile.FILE_SUPPORTED_FORMATS.includes(file.type) && file.size <= configFile.FILE_SIZE_MAX) {
             clearErrors("figure")
             console.log("passei por aqui")
         }
-        
-        if(!errors.figure ){
+
+        if (!errors.figure) {
             setImage(file)
-        }else{
+        } else {
             handlerDeleteImage()
         }
     }
@@ -119,7 +119,7 @@ export const BoxRegisterPost = () => {
 
                         <InputFile imagePreview={preview} error={!!errors.figure?.message} {...register("figure", {
                             onChange: handlerOnchange,
-                            
+
                         })} />
 
                     </WrapperImageAndTrash>
@@ -136,8 +136,8 @@ export const BoxRegisterPost = () => {
                     </div>
 
                     <WrapperButtons>
-                        <ButtonMain type="button" onClick={handlerClearAll} disabled={ isSubmitting} isDesabled={isSubmitting} variant="link">Descartar</ButtonMain>
-                        <ButtonMain type="submit" disabled={ isSubmitting   } isDesabled={isSubmitting } variant="solid">Publicar</ButtonMain>
+                        <ButtonMain type="button" onClick={handlerClearAll} disabled={isSubmitting} isDesabled={isSubmitting} variant="link">Descartar</ButtonMain>
+                        <ButtonMain type="submit" disabled={isSubmitting} isDesabled={isSubmitting} variant="solid">Publicar</ButtonMain>
                     </WrapperButtons>
                 </Form>
             </Wrapper>
